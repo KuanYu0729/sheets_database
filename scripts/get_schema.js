@@ -8,7 +8,11 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(DATABASE_CONFIG_PATH);
 const db = low(adapter);
 let data = db.get("database").get("Heroku Database").value();
-let { spreadsheetId } = data;
+let { id } = data;
 SheetsDataBase.Schema.get({
-	spreadsheetId
+	"spreadsheetId": id
+}).then(info => {
+	console.log(JSON.stringify(info, null, "\t"));
+}).catch(error => {
+	console.error(error);
 });

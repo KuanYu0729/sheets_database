@@ -154,9 +154,9 @@ module.exports = (() => {
 						"url": info.spreadsheetUrl,
 						"sheets": info.sheets.map(info => {
 							return {
-								"index": info.index,
-								"id": info.sheetId,
-								"title": info.title
+								"index": info.properties.index,
+								"id": info.properties.sheetId,
+								"title": info.properties.title
 							};
 						})
 					};
