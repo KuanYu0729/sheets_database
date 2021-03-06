@@ -1,0 +1,16 @@
+{
+  "database": {
+    "Heroku Database": {
+      "id": "1Vs1zoh0omthPh4jLlsO2h5kWzN0F6Akm_vq7OFmJa7E",
+      "title": "Heroku Database",
+      "url": "https://docs.google.com/spreadsheets/d/1Vs1zoh0omthPh4jLlsO2h5kWzN0F6Akm_vq7OFmJa7E/edit",
+      "sheets": [
+        {
+          "index": 0,
+          "id": 0,
+          "title": "工作表1"
+        }
+      ]
+    }
+  }
+}
