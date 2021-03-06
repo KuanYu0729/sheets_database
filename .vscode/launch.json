@@ -11,7 +11,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/scripts/initialize.js"
+			"program": "${workspaceFolder}/scripts/schema/initialize.js"
 		},
 		{
 			"type": "pwa-node",
@@ -20,7 +20,16 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/scripts/get_schema.js"
+			"program": "${workspaceFolder}/scripts/schema/get_schema.js"
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "TableRename",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/scripts/table/rename.js"
 		},
 		{
 			"type": "pwa-node",

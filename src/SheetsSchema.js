@@ -111,7 +111,7 @@ module.exports = (() => {
 		/**
 		 * @typedef SheetsSchema~GetSchemaParameter
 		 * @type {Object}
-		 * @property {String} spreadsheetId id of spreadsheet
+		 * @property {String} schemaId id of schema
 		 */
 
 		/**
@@ -124,10 +124,10 @@ module.exports = (() => {
 			if (typeof param !== "object" || param === null) {
 				param = {};
 			}
-			let { spreadsheetId } = param;
-			if (typeof spreadsheetId !== "string") {
+			let { schemaId } = param;
+			if (typeof schemaId !== "string") {
 				return Promise.reject({
-					"message": "SpreadSheetId is not a string."
+					"message": "SchemaId is not a string."
 				});
 			}
 			return getService().then(service => {
@@ -138,7 +138,7 @@ module.exports = (() => {
 				}
 				return new Promise((resolve, reject) => {
 					service.sheetsService.spreadsheets.get({
-						spreadsheetId,
+						spreadsheetId: schemaId,
 						auth: service.auth
 					}, (err, result) => {
 						if (err) {

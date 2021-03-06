@@ -5,22 +5,28 @@ module.exports = (() => {
 	let authorize;
 	let sheetsService;
 	let driveService;
+	let auth;
 	function getService() {
 		if (typeof sheetsService === "object" &&
 			sheetsService !== null &&
 			typeof driveService === "object" &&
-			driveService !== null) {
+			driveService !== null &&
+			typeof auth === "object" &&
+			auth !== null) {
 			return Promise.resolve({
 				sheetsService,
-				driveService
+				driveService,
+				auth
 			});
 		}
-		return authorize().then(auth => {
-			sheetsService = google.sheets({ version: 'v4', auth });
-			driveService = google.drive({ version: 'v3', auth });
+		return authorize().then(_auth => {
+			auth = _auth;
+			sheetsService = google.sheets({ version: 'v4', "auth": _auth });
+			driveService = google.drive({ version: 'v3', "auth": _auth });
 			return {
 				sheetsService,
-				driveService
+				driveService,
+				auth
 			};
 		}).catch(() => {
 
@@ -35,12 +41,13 @@ module.exports = (() => {
 	class SheetsTable {
 		constructor(config) {
 			authorize = config.authorize;
-
 		}
 
 		/**
 		 * @typedef SheetsTable~CreateTableParameter
-		 * @property {String} spreadsheetId id of spreadsheet
+		 * @property {String} schemaId id of schema
+		 * @property {String} tableId id of table
+		 * @property {String} title title of table
 		 */
 
 		/**
@@ -49,22 +56,26 @@ module.exports = (() => {
 		 * @param {SheetsTable~CreateTableParameter} param parameter of creating table
 		 * @return {Promise} create schema promise
 		 */
-		create(param) {
+		rename(param) {
 			if (typeof param !== "object" || param === null) {
 				param = {};
 			}
-			let { spreadsheetId, title } = param;
-			if (typeof spreadsheetId !== "string") {
+			let { schemaId, tableId, title } = param;
+			if (typeof schemaId !== "string") {
 				return Promise.reject({
-					"message": "SpreadSheetId is not a string."
+					"message": "SchemaId is not a string."
+				});
+			} else if (typeof tableId !== "number") {
+				return Promise.reject({
+					"message": "TableId is not a number."
 				});
 			} else if (typeof title !== "string") {
 				return Promise.reject({
-					"message": "Schema title is not a string."
+					"message": "Table title is not a string."
 				});
 			} else if (title.trim() === "") {
 				return Promise.reject({
-					"message": "Schema title is empty."
+					"message": "Table title is empty."
 				});
 			}
 			return getService().then(service => {
@@ -74,23 +85,33 @@ module.exports = (() => {
 					});
 				}
 				return new Promise((resolve, reject) => {
-					service.sheetsService.spreadsheets.create({
+					service.sheetsService.spreadsheets.batchUpdate({
+						spreadsheetId: schemaId,
 						resource: {
-							spreadsheetId,
-							properties: {
-								title
-							}
+							requests: [{
+								updateSheetProperties: {
+									properties: {
+										"sheetId": tableId,
+										title,
+										"gridProperties": {
+											"rowCount": 50000,
+											"columnCount": 100
+										}
+									},
+									"fields": "*"
+								}
+							}]
 						},
-						fields: 'spreadsheetId'
-					}, (err, spreadsheet) => {
+						"auth": service.auth
+					}, (err, result) => {
 						if (err) {
 							reject(err);
 						} else {
-							resolve(spreadsheet);
+							resolve(result.data);
 						}
 					});
 				});
-				
+
 			});
 
 		}

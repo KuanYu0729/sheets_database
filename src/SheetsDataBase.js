@@ -83,7 +83,7 @@ class SheetsDataBase {
 							});
 						});
 
-					}
+					};
 					if (fs.existsSync(this.tokenPath)) {
 						resolve({
 							"tokenPath": this.tokenPath
