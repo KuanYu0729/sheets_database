@@ -6,8 +6,8 @@ module.exports = {
 	"getInstance": function(credentialsPath) {
 		GoogleAuthorize.authorize(credentialsPath);
 		return {
-			"Schema": new SheetsSchema(),
-			"Table": new SheetsTable()
+			"Schema": SheetsSchema,
+			"Table": SheetsTable
 		};
 	}
 };

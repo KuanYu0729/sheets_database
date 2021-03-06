@@ -38,7 +38,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/scripts/set_data.js"
+			"program": "${workspaceFolder}/scripts/table/insert.js"
 		}
 	]
 }
