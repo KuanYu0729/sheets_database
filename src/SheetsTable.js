@@ -1,37 +1,8 @@
-const { google } = require('googleapis');
+const GoogleAuthorize = require("./GoogleAuthorize");
 
 
 module.exports = (() => {
-	let authorize;
-	let sheetsService;
-	let driveService;
-	let auth;
-	function getService() {
-		if (typeof sheetsService === "object" &&
-			sheetsService !== null &&
-			typeof driveService === "object" &&
-			driveService !== null &&
-			typeof auth === "object" &&
-			auth !== null) {
-			return Promise.resolve({
-				sheetsService,
-				driveService,
-				auth
-			});
-		}
-		return authorize().then(_auth => {
-			auth = _auth;
-			sheetsService = google.sheets({ version: 'v4', "auth": _auth });
-			driveService = google.drive({ version: 'v3', "auth": _auth });
-			return {
-				sheetsService,
-				driveService,
-				auth
-			};
-		}).catch(() => {
-
-		});
-	}
+	
 
 	/**
 	 * Sheets table
@@ -39,9 +10,6 @@ module.exports = (() => {
 	 * @class
 	 */
 	class SheetsTable {
-		constructor(config) {
-			authorize = config.authorize;
-		}
 
 		/**
 		 * @typedef SheetsTable~CreateTableParameter
@@ -78,7 +46,7 @@ module.exports = (() => {
 					"message": "Table title is empty."
 				});
 			}
-			return getService().then(service => {
+			return GoogleAuthorize.getService().then(service => {
 				if (typeof service.sheetsService !== "object" || service.sheetsService === null) {
 					return Promise.reject({
 						"message": "Cannot create SheetsService without OAuth2"
