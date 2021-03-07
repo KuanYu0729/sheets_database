@@ -4,6 +4,12 @@
 
 - https://developers.google.com/sheets/api/guides/concepts
 
+## 安裝
+
+```
+npm install https://gitlab+deploy-token-382873:MyHg1izmy1GY99tULngv@gitlab.com/kuanyu/sheetsdatabase.git
+```
+
 ## 測試用 Google Sheets
 
 - 測試用Google sheets 如下，不確定哪一組是對應的

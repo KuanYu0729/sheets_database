@@ -15,30 +15,9 @@ if (sheets.length > 0) {
 } else {
 	sheet = {};
 }
-// SheetsDataBase.Table.insert({
-// 	"schemaId": id,
-// 	"tableId": sheet.id,
-// 	"data": {
-// 		"a": "1",
-// 		"b": "2",
-// 		"c": "3"
-// 	}
-// }).then(info => {
-// 	console.log(JSON.stringify(info, null, "\t"));
-// }).catch(error => {
-// 	console.error(error.message + "\n" + error.stack);
-// });
-SheetsDataBase.Table.insert({
+SheetsDataBase.Table.get({
 	"schemaId": id,
-	"tableId": sheet.id,
-	"data": [{
-		"a": "1",
-		"b": "2",
-		"c": "3"
-	}, {
-		"b": 3,
-		"c": 4
-	}]
+	"tableId": sheet.id
 }).then(info => {
 	console.log(JSON.stringify(info, null, "\t"));
 }).catch(error => {
